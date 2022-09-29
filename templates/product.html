@@ -1,22 +1,30 @@
 {% extends "base.html" %}
-
 {% load static %}
 
-{% block title %}{{ phone.name }}{% endblock %}
-
+{% block title %}Телефон{% endblock %}
 {% block content %}
-  <div class="container">
-  <div class="header">
-    <h5>
-      <a href="{% url 'catalog' %}">Вернуться в каталог</a>
-    </h5>
-    <h1>{{ phone.name }}</h1>
-  </div>
+    <div class="container">
+        <div class="header">
+            <h1>Телефон</h1>
+        </div>
+        <div class="content">
+            <td>
+                {% for inf in phone %}
+                    <tr>
+                        <h3> {{ inf.name }} </h3>
+                        <img src={{ inf.image }} height="500">
+                        {% if inf.lte_exist is True %}
+                            <p>Поддержка LTE - Да </p>
+                        {% else %}
+                            <p>Поддержка LTE - Да </p>
+                        {% endif %}
+                        <p>Дата выхода - {{ inf.release_date }}</p>
+                        <p><big><b> Стоимость: {{ inf.price }}р. </b></big></p>
+                    </tr>
+                {% endfor %}
+            </td>
 
-  <div class="content">
-    <img src="{{ phone.image }}" alt="{{ phone.name }}"/>
-    <div>Стоимость: {{ phone.price }} ₽</div>
-    <div>Дата выпуска: {{ phone.release_date }}</div>
-    <div>LTE: {{ phone.lte_exists|yesno:'есть,нет' }}</div>
-  </div>
+
+        </div>
+    </div>
 {% endblock %}

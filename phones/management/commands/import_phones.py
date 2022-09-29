@@ -1,8 +1,6 @@
 import csv
-
+from django.template.defaultfilters import slugify
 from django.core.management.base import BaseCommand
-
-from main import settings
 from phones.models import Phone
 
 
@@ -11,14 +9,18 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        print('Importing data from:', settings.DATA_IMPORT_LOCATION)
+        with open('phones.csv', 'r') as csvfile:
 
-        with open('phones.csv', 'r') as file:
-            phones = list(csv.DictReader(file, delimiter=';'))
-
-        for phone, line in enumerate(phones):
-            name = line[1]
-            price = line[3]
-            image = line[2]
-            release_date = line[4]
-            lte_exists = line[5]
+            phone_reader = csv.reader(csvfile, delimiter=';')
+            # пропускаем заголовок
+            next(phone_reader)
+            for line in phone_reader:
+                Phone.objects.create(
+                    id=int(line[0]),
+                    name=line[1],
+                    price=int(line[3]),
+                    image=line[2],
+                    release_date=line[4],
+                    lte_exists=line[5],
+                    slug=slugify(line[1]),
+                )
