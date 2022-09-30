@@ -15,12 +15,10 @@ class Command(BaseCommand):
             # пропускаем заголовок
             next(phone_reader)
             for line in phone_reader:
-                Phone.objects.create(
-                    id=int(line[0]),
-                    name=line[1],
-                    price=int(line[3]),
-                    image=line[2],
+                new_phone = Phone.objects.create(
+                    id=int(line[0]), name=line[1],
+                    price=int(line[3]), image=line[2],
                     release_date=line[4],
-                    lte_exists=line[5],
+                    lte_exist=line[5],
                     slug=slugify(line[1]),
                 )
