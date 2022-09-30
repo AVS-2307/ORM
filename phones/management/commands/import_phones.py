@@ -22,3 +22,4 @@ class Command(BaseCommand):
                     lte_exist=line[5],
                     slug=slugify(line[1]),
                 )
+
